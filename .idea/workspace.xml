@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5f5dcb29-4552-4a89-b203-b00732edad11" name="Changes" comment="Getting the content of the pdf file using pytesseract ocr">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ONEFactureScript.py" beforeDir="false" afterPath="$PROJECT_DIR$/ONEFactureScript.py" afterDir="false" />
-    </list>
+    <list default="true" id="5f5dcb29-4552-4a89-b203-b00732edad11" name="Changes" comment="Extractin data from pdf usin GPT4 vision model api" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +66,7 @@
       <workItem from="1711391958976" duration="1177000" />
       <workItem from="1711499471062" duration="12449000" />
       <workItem from="1711547302807" duration="769000" />
-      <workItem from="1711659772110" duration="2147000" />
+      <workItem from="1711659772110" duration="2451000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <option name="closed" value="true" />
@@ -103,7 +100,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711511623518</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Extractin data from pdf usin GPT4 vision model api">
+      <option name="closed" value="true" />
+      <created>1711662561694</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1711662561694</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,6 +118,7 @@
     <MESSAGE value="First Commit" />
     <MESSAGE value="OSR using gpt 3.5" />
     <MESSAGE value="Getting the content of the pdf file using pytesseract ocr" />
-    <option name="LAST_COMMIT_MESSAGE" value="Getting the content of the pdf file using pytesseract ocr" />
+    <MESSAGE value="Extractin data from pdf usin GPT4 vision model api" />
+    <option name="LAST_COMMIT_MESSAGE" value="Extractin data from pdf usin GPT4 vision model api" />
   </component>
 </project>
