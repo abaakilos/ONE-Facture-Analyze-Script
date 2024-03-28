@@ -2,30 +2,48 @@ import streamlit as st
 import fitz  # PyMuPDF
 import io
 from PIL import Image
-import pytesseract
-import http.client
-import json
+import base64
+import requests
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\\Users\\Home\\AppData\\Local\\Programs\\Tesseract-OCR\\tesseract.exe'
+# OpenAI API Key
+api_key = "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"
 
-# Function to perform OCR on an image
-def ocr_image(image):
-    # Convert the image to grayscale
-    gray_image = image.convert('L')
+# Function to encode the image
+def encode_image(image):
+    return base64.b64encode(image).decode('utf-8')
 
-    # Perform OCR on the grayscale image
-    text = pytesseract.image_to_string(gray_image)
+# Function to send request to API
+def send_request_to_api(base64_image):
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {api_key}"
+    }
 
-    return text
+    payload = {
+        "model": "gpt-4-vision-preview",
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Donne moi les prix unitaire des heures de pointe, heures pleines, et heures creuses"
+                    },
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{base64_image}"
+                        }
+                    }
+                ]
+            }
+        ],
+        "max_tokens": 300
+    }
 
-# Initialize HTTP connection
-conn = http.client.HTTPSConnection("chatgpt-42.p.rapidapi.com")
+    response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
 
-headers = {
-    'content-type': "application/json",
-    'X-RapidAPI-Key': "096e66c0a8mshb1fddf4fb473344p1da386jsn971c26f729a6",
-    'X-RapidAPI-Host': "chatgpt-42.p.rapidapi.com"
-}
+    return response.json()
 
 # Upload the PDF file
 uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
@@ -35,7 +53,7 @@ if uploaded_file is not None:
 
     # Iterate over PDF pages
     for page_index in range(0, len(pdf_file) - 1, 2):  # Process two pages at a time
-        text = ""  # Initialize text for the two pages
+        images = []  # Initialize images for the two pages
 
         # Process two pages
         for i in range(2):
@@ -51,32 +69,25 @@ if uploaded_file is not None:
                 # Save the image as a PIL object
                 base_image = Image.open(io.BytesIO(image_data))
 
-                # Perform OCR on the image
-                text += ocr_image(base_image) + "\n"
+                # Convert the image to base64
+                buffered = io.BytesIO()
+                base_image.save(buffered, format="JPEG")
+                img_str = base64.b64encode(buffered.getvalue())
 
-        # Prepare the payload
-        payload = json.dumps({
-            "messages": [
-                {
-                    "role": "user",
-                    "content": "give me the amount to be paid in this electricity bill : "+text
-                }
-            ],
-            "system_prompt": "",
-            "temperature": 0.9,
-            "top_k": 5,
-            "top_p": 0.9,
-            "max_tokens": 256,
-            "web_access": False
-        })
+                # Add the base64 image to the list
+                images.append(img_str)
 
-        # Send the request to the API
-        conn.request("POST", "/conversationgpt4", payload, headers)
+        # Inside your loop where you process the images
+        for img_index, img_str in enumerate(images):
+            # Convert the image to a supported format (JPEG)
+            img = Image.open(io.BytesIO(base64.b64decode(img_str)))
+            buffered = io.BytesIO()
+            img.save(buffered, format="JPEG")
+            img_str_jpeg = base64.b64encode(buffered.getvalue()).decode('utf-8')
 
-        # Get the response
-        res = conn.getresponse()
-        data = res.read()
+            # Send the request to the API and get the response
+            api_response = send_request_to_api(img_str_jpeg)
 
-        # Display the extracted text and the response from the API
-        st.text_area(f"Text (Pages {page_index + 1} and {page_index + 2})", text)
-        st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2})", data.decode("utf-8"))
+            # Display the response from the API
+            st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}, Image {img_index + 1})",
+                         str(api_response), key=f"API Response {page_index + 1}-{page_index + 2}-{img_index + 1}")
