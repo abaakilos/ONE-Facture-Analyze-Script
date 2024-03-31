@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5f5dcb29-4552-4a89-b203-b00732edad11" name="Changes" comment="Extractin data from pdf usin GPT4 vision model api" />
+    <list default="true" id="5f5dcb29-4552-4a89-b203-b00732edad11" name="Changes" comment="Extractin data from pdf usin GPT4 vision model api">
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ONEFactureScript.py" beforeDir="false" afterPath="$PROJECT_DIR$/ONEFactureScript.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,6 +29,20 @@
       </GitPushTagMode>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;abaakilos&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="2b4cef2e-47a0-4687-bd26-6fa6da88e437" />
+        <option name="url" value="https://github.com/abaakilos/ONE-Facture-Analyze-Script.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -66,7 +84,9 @@
       <workItem from="1711391958976" duration="1177000" />
       <workItem from="1711499471062" duration="12449000" />
       <workItem from="1711547302807" duration="769000" />
-      <workItem from="1711659772110" duration="2451000" />
+      <workItem from="1711659772110" duration="2710000" />
+      <workItem from="1711662931886" duration="1312000" />
+      <workItem from="1711830458633" duration="7466000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <option name="closed" value="true" />
@@ -108,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711662561694</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Extractin data from pdf usin GPT4 vision model api">
+      <option name="closed" value="true" />
+      <created>1711662683615</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1711662683615</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
