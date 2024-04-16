@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5f5dcb29-4552-4a89-b203-b00732edad11" name="Changes" comment="API takes two pictures of on bill and extract information">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
+    <list default="true" id="5f5dcb29-4552-4a89-b203-b00732edad11" name="Changes" comment="the output will be divided to three parts, two JSON's with bill data, and a recommendation from gpt4">
+      <change afterPath="$PROJECT_DIR$/PPrimeLogo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ReportGen.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/template.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ONEFactureScript.py" beforeDir="false" afterPath="$PROJECT_DIR$/ONEFactureScript.py" afterDir="false" />
     </list>
@@ -55,9 +57,12 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.ONEFactureScript.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ReportGen.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Home/PycharmProjects/ONEFactureAnalyze&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -66,6 +71,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Home\PycharmProjects\ONEFactureAnalyze" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -87,7 +97,10 @@
       <workItem from="1711659772110" duration="2710000" />
       <workItem from="1711662931886" duration="1312000" />
       <workItem from="1711830458633" duration="23516000" />
-      <workItem from="1711977863735" duration="7694000" />
+      <workItem from="1711977863735" duration="10426000" />
+      <workItem from="1712384054262" duration="3933000" />
+      <workItem from="1712543537335" duration="27802000" />
+      <workItem from="1713096431658" duration="14528000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <option name="closed" value="true" />
@@ -145,11 +158,30 @@
       <option name="project" value="LOCAL" />
       <updated>1711923089053</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="the output will be divided to three parts, two JSON's with bill data, and a recommendation from gpt4">
+      <option name="closed" value="true" />
+      <created>1712092003638</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1712092003638</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First Commit" />
@@ -157,6 +189,11 @@
     <MESSAGE value="Getting the content of the pdf file using pytesseract ocr" />
     <MESSAGE value="Extractin data from pdf usin GPT4 vision model api" />
     <MESSAGE value="API takes two pictures of on bill and extract information" />
-    <option name="LAST_COMMIT_MESSAGE" value="API takes two pictures of on bill and extract information" />
+    <MESSAGE value="the output will be divided to three parts, two JSON's with bill data, and a recommendation from gpt4" />
+    <option name="LAST_COMMIT_MESSAGE" value="the output will be divided to three parts, two JSON's with bill data, and a recommendation from gpt4" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ONEFactureAnalyze$ONEFactureScript.coverage" NAME="ONEFactureScript Coverage Results" MODIFIED="1713110479255" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ONEFactureAnalyze$ReportGen.coverage" NAME="ReportGen Coverage Results" MODIFIED="1713110016907" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

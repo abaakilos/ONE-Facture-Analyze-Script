@@ -4,6 +4,7 @@ import io
 from PIL import Image
 import base64
 from openai import OpenAI
+import os
 import json
 
 # OpenAI API Key
@@ -11,6 +12,9 @@ api_key = "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"
 
 client = OpenAI(api_key=api_key)
 
+i = 0
+
+data_list = []
 
 def send_request_to_api(base64_image1, base64_image2, prompt):
     response = client.chat.completions.create(
@@ -44,21 +48,20 @@ def send_request_to_api(base64_image1, base64_image2, prompt):
 
 
 
-prompt1 = ("Extract the following information in json format: "
+prompt1 = ("Extract the following information in json format, if there is a number give to me as a number not as a string: "
            "{"
            "\"heures_de_pointes\": { \"nouveau\": \"\", \"ancien\": \"\", \"difference\": \"\", \"consommation_kWh\": \"\", \"prix_unitaire_HT_DH\": \"\", \"montant_DH_HT\": \"\" }, "
            "\"heures_pleines\": { \"nouveau\": \"\", \"ancien\": \"\", \"difference\": \"\", \"consommation_kWh\": \"\", \"prix_unitaire_HT_DH\": \"\", \"montant_DH_HT\": \"\" }, "
-           "\"heures_creuses\": { \"nouveau\": \"\", \"ancien\": \"\", \"difference\": \"\", \"consommation_kWh\": \"\", \"prix_unitaire_HT_DH\": \"\", \"montant_DH_HT\": \"\" }, "
-           "\"Type de tarif\": \"\", "
-           "\"Date de releve\": \"\", "
-           "\"Mois de Facturation\": \"\", "
-           "\"Total a regler\": \"\" "
-           "}")
+           "\"heures_creuses\": { \"nouveau\": \"\", \"ancien\": \"\", \"difference\": \"\", \"consommation_kWh\": \"\", \"prix_unitaire_HT_DH\": \"\", \"montant_DH_HT\": \"\" } "
+           "}, but return such that it will be the first part of a json, I will add to it another json at the end of it string so that it makes one")
 
 
-prompt2 = ("Extract the following information in json format: 'Puissance Installe', 'Puissance a vide', "
-           "'Type compteur', 'Option Tarifiaire', 'Energie active', 'Energie reactive', 'CosPhi', 'Puissance "
-           "Souscrite', 'Dépassement Puissance', 'Redevance Comptage', 'Total HT', 'TVA' (pour chaque pourcentage)")
+prompt2 = ("Extract the following information in json format, if there is a number give to me as a number not as a string, don't make any mistake in the json format, because I will use it directly from your answer: 'Puissance Installe', 'Puissance a vide', "
+           "'Mois_de_Consomation', 'Total_a_regler', 'Destinataire', 'N_Client'"
+           "'Type_compteur', 'Option_Tarifiaire', 'Energie_active', 'Energie_reactive', 'CosPhi', 'Puissance_"
+           "Souscrite' : {'quantite', 'prix_unitaire', 'montatnt'}, 'Dépassement_Puissance', 'Redevance_Comptage', 'Total_HT', 'TVA' (pour chaque pourcentage)"
+           "but return such that it will be the first part of a json, it will be added to another json string at the first line, so that it makes one"
+           )
 
 prompt3 = ("Agis comme un expert en électricité et efficacité énergétique et en prenant en considération le cas d'une entreprise agricole dans le contexte marocain"
            " qui souhaite optimiser la consommation d'energie analyse la facture suivante et fais un diagnostic détaillé selon le contexte de l'ONE au Maroc et donne"
@@ -120,11 +123,34 @@ if uploaded_file is not None:
         json_part1 = content1[start1:end1]
         json_part2 = content2[start2:end2]
 
+        json_part1 = json_part1[:-3]
+        json_part2 = json_part2[2:]
+
+        final = json_part1 + '},\n' + json_part2 + '\n}'
+
+        #json_obj = json.loads(final)
+
+        #json_obj1 = json.loads(json_part1)
+        #json_obj2 = json.loads(json_part2)
+
+        # Group them into a single JSON array
+        #json_array = [json_obj1, json_obj2]
+
+        #Convert the JSON array to a string
+        #final_json = json.dumps(json_array, indent=2)
+
+        #json_final = json.loads(final)
+
+        #data_list.append(final)
+
+
 
         # Display the response from the API
         st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 1",
-                     json_part1)
-        st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 2",
-                     json_part2)
+                     final)
+        #st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 2",
+        #             json_part2)
         st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 3",
                      api_response3.message.content)
+
+os.environ['DATA'] = str(data_list)
