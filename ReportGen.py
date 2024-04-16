@@ -19,11 +19,11 @@ json_string = [
   },
   "heures_pleines": {
     "nouveau": 1805712,
-    "ancien": 1787588,
-    "difference": 18124,
-    "consommation_kWh": 18864,
+    "ancien": 1787858,
+    "difference": 17854,
+    "consommation_kWh": 18684,
     "prix_unitaire_HT_DH": 0.880606,
-    "montant_DH_HT": 16714.64
+    "montant_DH_HT": 16471.64
   },
   "heures_creuses": {
     "nouveau": 659000,
@@ -32,37 +32,44 @@ json_string = [
     "consommation_kWh": 7630,
     "prix_unitaire_HT_DH": 0.64895,
     "montant_DH_HT": 4951.49
-  },
-  "Puissance_Installe": 0.3,
-  "Puissance_a_vide": 0,
-  "Mois_de_Consomation": "SEP 2023",
-  "Total_a_regler": 37073.03,
-  "Destinataire": "SOCIETE DOMAINES ROYAUX",
-  "N_Client": 1000000293,
-  "Type_compteur": 10,
-  "Option_Tarifiaire": "MT General",
-  "Energie_active": {
-    "Index_Nouveau": 339744,
-    "Index_Ancien": 334773,
-    "Difference": 4971
-  },
-  "Energie_reactive": {
-    "Index_Nouveau": 187858,
-    "Index_Ancien": 181824,
-    "Difference": 6034
-  },
-  "CosPhi": 0.921,
-  "Puissance_Souscrite": {
-    "quantite": 48,
-    "prix_unitaire": 449.67,
-    "montant": 1798.68
-  },
-  "Depassement_Puissance": 2023.52,
-  "Redevance_Comptage": {
-    "Location": 397,
-    "Entretien": 326,
-    "Interets_de_retard": 66.61
-  }}
+},
+  "Total_HT": 4556.16,
+  "TVA": {
+    "7%": 13.09,
+    "10%": 6.6,
+    "14%": 4471.21,
+    "20%": 65.2
+ },
+    "Puissance_Installe": 0.3,
+    "Puissance_a_vide": 0,
+    "Mois_de_Consomation": "SEP 2023",
+    "Total_a_regler": 37073.03,
+    "Destinataire": "SOCIÉTÉ DOMAINES ROYAUX",
+    "N_Client": 1000000293,
+    "Type_compteur": "Electronique",
+    "Option_Tarifiaire": "MT Général",
+    "Energie_active": {
+        "nouveau": 339744,
+        "ancien": 334773,
+        "difference": 4971
+    },
+    "Energie_reactive": {
+        "nouveau": 18758,
+        "ancien": 18124,
+        "difference": 634
+    },
+    "CosPhi": 0.921,
+    "Puissance_Souscrite": {
+        "quantite": 48,
+        "prix_unitaire": 674.51,
+        "montant": 1799.68
+    },
+    "Depassement_Puissance": 2023.52,
+    "Redevance_comptage": {
+        "location": 187,
+        "entretien": 326
+    }
+}
     """,
     """
     {
@@ -76,11 +83,11 @@ json_string = [
   },
   "heures_pleines": {
     "nouveau": 1805712,
-    "ancien": 1787588,
-    "difference": 18124,
-    "consommation_kWh": 18864,
+    "ancien": 1787858,
+    "difference": 17854,
+    "consommation_kWh": 18684,
     "prix_unitaire_HT_DH": 0.880606,
-    "montant_DH_HT": 16714.64
+    "montant_DH_HT": 16471.64
   },
   "heures_creuses": {
     "nouveau": 659000,
@@ -89,94 +96,44 @@ json_string = [
     "consommation_kWh": 7630,
     "prix_unitaire_HT_DH": 0.64895,
     "montant_DH_HT": 4951.49
-  },
-  "Puissance_Installe": 0.3,
-  "Puissance_a_vide": 0,
-  "Mois_de_Consomation": "SEP 2023",
-  "Total_a_regler": 37073.03,
-  "Destinataire": "SOCIETE DOMAINES ROYAUX lola",
-  "N_Client": 1000000293,
-  "Type_compteur": 10,
-  "Option_Tarifiaire": "MT General",
-  "Energie_active": {
-    "Index_Nouveau": 339744,
-    "Index_Ancien": 334773,
-    "Difference": 4971
-  },
-  "Energie_reactive": {
-    "Index_Nouveau": 187858,
-    "Index_Ancien": 181824,
-    "Difference": 6034
-  },
-  "CosPhi": 0.921,
-  "Puissance_Souscrite": {
-    "quantite": 48,
-    "prix_unitaire": 449.67,
-    "montant": 1798.68
-  },
-  "Depassement_Puissance": 2023.52,
-  "Redevance_Comptage": {
-    "Location": 397,
-    "Entretien": 326,
-    "Interets_de_retard": 66.61
-  }}
-    """,
-    """
-{
-  "heures_de_pointes": {
-    "nouveau": 339744,
-    "ancien": 334773,
-    "difference": 4971,
-    "consommation_kWh": 5193,
-    "prix_unitaire_HT_DH": 1.24185,
-    "montant_DH_HT": 6448.93
-  },
-  "heures_pleines": {
-    "nouveau": 1805712,
-    "ancien": 1787588,
-    "difference": 18124,
-    "consommation_kWh": 18864,
-    "prix_unitaire_HT_DH": 0.880606,
-    "montant_DH_HT": 16714.64
-  },
-  "heures_creuses": {
-    "nouveau": 659000,
-    "ancien": 651702,
-    "difference": 7298,
-    "consommation_kWh": 7630,
-    "prix_unitaire_HT_DH": 0.64895,
-    "montant_DH_HT": 4951.49
-  },
-  "Puissance_Installe": 0.3,
-  "Puissance_a_vide": 0,
-  "Mois_de_Consomation": "SEP 2023",
-  "Total_a_regler": 37073.03,
-  "Destinataire": "SOCIETE DOMAINES ROYAUX",
-  "N_Client": 1000000293,
-  "Type_compteur": 10,
-  "Option_Tarifiaire": "MT General",
-  "Energie_active": {
-    "Index_Nouveau": 339744,
-    "Index_Ancien": 334773,
-    "Difference": 4971
-  },
-  "Energie_reactive": {
-    "Index_Nouveau": 187858,
-    "Index_Ancien": 181824,
-    "Difference": 6034
-  },
-  "CosPhi": 0.921,
-  "Puissance_Souscrite": {
-    "quantite": 48,
-    "prix_unitaire": 449.67,
-    "montant": 1798.68
-  },
-  "Depassement_Puissance": 2023.52,
-  "Redevance_Comptage": {
-    "Location": 397,
-    "Entretien": 326,
-    "Interets_de_retard": 66.61
-  }}
+},
+  "Total_HT": 4556.16,
+  "TVA": {
+    "7%": 13.09,
+    "10%": 6.6,
+    "14%": 4471.21,
+    "20%": 65.2
+ },
+    "Puissance_Installe": 0.3,
+    "Puissance_a_vide": 0,
+    "Mois_de_Consomation": "SEP 2023",
+    "Total_a_regler": 37073.03,
+    "Destinataire": "SOCIÉTÉ DOMAINES ROYAUX",
+    "N_Client": 1000000293,
+    "Type_compteur": "Electronique",
+    "Option_Tarifiaire": "MT Général",
+    "Energie_active": {
+        "nouveau": 339744,
+        "ancien": 334773,
+        "difference": 4971
+    },
+    "Energie_reactive": {
+        "nouveau": 18758,
+        "ancien": 18124,
+        "difference": 634
+    },
+    "CosPhi": 0.921,
+    "Puissance_Souscrite": {
+        "quantite": 48,
+        "prix_unitaire": 674.51,
+        "montant": 1799.68
+    },
+    "Depassement_Puissance": 2023.52,
+    "Redevance_comptage": {
+        "location": 187,
+        "entretien": 326
+    }
+}
     """
 ]
 
@@ -228,7 +185,7 @@ def generate_report(data, template_path, output_path):
     # Create the context including the data array
     all_contexts = []
     for item in data:
-        Redevance_Comptage += (item["Redevance_Comptage"]["Location"] + item["Redevance_Comptage"]["Entretien"])
+        Redevance_Comptage += (item["Redevance_comptage"]["location"] + item["Redevance_comptage"]["entretien"])
         Depassement_Puissance += (item["Depassement_Puissance"])
         redevance_ps += (item["Puissance_Souscrite"]["montant"])
         consommation_global += (

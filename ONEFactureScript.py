@@ -42,7 +42,7 @@ def send_request_to_api(base64_image1, base64_image2, prompt):
                 ],
             }
         ],
-        max_tokens=300,
+        max_tokens=1000,
     )
     return response.choices[0]
 
@@ -56,14 +56,16 @@ prompt1 = ("Extract the following information in json format, if there is a numb
            "}, but return such that it will be the first part of a json, I will add to it another json at the end of it string so that it makes one")
 
 
-prompt2 = ("Extract the following information in json format, if there is a number give to me as a number not as a string, don't make any mistake in the json format, because I will use it directly from your answer: 'Puissance Installe', 'Puissance a vide', "
-           "'Mois_de_Consomation', 'Total_a_regler', 'Destinataire', 'N_Client'"
-           "'Type_compteur', 'Option_Tarifiaire', 'Energie_active', 'Energie_reactive', 'CosPhi', 'Puissance_"
-           "Souscrite' : {'quantite', 'prix_unitaire', 'montatnt'}, 'Dépassement_Puissance', 'Redevance_Comptage', 'Total_HT', 'TVA' (pour chaque pourcentage)"
-           "but return such that it will be the first part of a json, it will be added to another json string at the first line, so that it makes one"
+prompt2 = ("Extract the following information in json format, if there is a number give to me as a number not as a string, don't make any mistake in the json format, because I will use it directly from your answer:"
+           "'Total_HT', 'TVA' (pour chaque pourcentage)"
+           "but return such that it will be the first part of a json, it will be added to another json string at the first line, so that it makes one, and give me only the json, don't write anything else"
            )
 
-prompt3 = ("Agis comme un expert en électricité et efficacité énergétique et en prenant en considération le cas d'une entreprise agricole dans le contexte marocain"
+prompt3 = ("Extract the following information in json format, if there is a number give to me as a number not as a string, don't make any mistake in the json format, because I will use it directly from your answer"
+    '{"Puissance_Installe":"","Puissance_a_vide":"","Mois_de_Consomation":"","Total_a_regler":"","Destinataire":"","N_Client":"","Type_compteur":"","Option_Tarifiaire":"","Energie_active":{"nouveau":"","ancien":"","difference":""},"Energie_reactive":{"nouveau":"","ancien":"","difference":""},"CosPhi":"","Puissance_Souscrite":{"quantite":"","prix_unitaire":"","montant":""},"Depassement_Puissance":"", "Redevance_comptage":{"location":"","entretien":""},"interets_retard":""}}'
+    "but return such that it will be the first part of a json, it will be added to another json string at the first line, so that it makes one")
+
+prompt4 = ("Agis comme un expert en électricité et efficacité énergétique et en prenant en considération le cas d'une entreprise agricole dans le contexte marocain"
            " qui souhaite optimiser la consommation d'energie analyse la facture suivante et fais un diagnostic détaillé selon le contexte de l'ONE au Maroc et donne"
            " les recommandations nécessaires. Take a deep breath and do it step by step")
 
@@ -106,10 +108,12 @@ if uploaded_file is not None:
         api_response1 = send_request_to_api(images[0], images[1], prompt1)
         api_response2 = send_request_to_api(images[0], images[1], prompt2)
         api_response3 = send_request_to_api(images[0], images[1], prompt3)
+        api_response4 = send_request_to_api(images[0], images[1], prompt4)
 
         # Extract the content from the API response
         content1 = api_response1.message.content
         content2 = api_response2.message.content
+        content3 = api_response3.message.content
         # print(api_response)
 
         # Find the start and end of the JSON part
@@ -119,14 +123,19 @@ if uploaded_file is not None:
         start2 = content2.find('{')
         end2 = content2.rfind('}') + 1
 
+        start3 = content3.find('{')
+        end3 = content3.rfind('}') + 1
+
         # Extract the JSON part
         json_part1 = content1[start1:end1]
         json_part2 = content2[start2:end2]
+        json_part3 = content3[start3:end3]
 
         json_part1 = json_part1[:-3]
-        json_part2 = json_part2[2:]
+        json_part2 = json_part2[2:-2]
+        json_part3 = json_part3[2:]
 
-        final = json_part1 + '},\n' + json_part2 + '\n}'
+        final = json_part1 + '},\n' + json_part2 + '},\n' + json_part3 + '\n}'
 
         #json_obj = json.loads(final)
 
@@ -151,6 +160,6 @@ if uploaded_file is not None:
         #st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 2",
         #             json_part2)
         st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 3",
-                     api_response3.message.content)
+                     api_response4.message.content)
 
 os.environ['DATA'] = str(data_list)
