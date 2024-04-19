@@ -4,7 +4,7 @@ import io
 from PIL import Image
 import base64
 from openai import OpenAI
-import os
+from ReportGen import generate_report
 import json
 
 # OpenAI API Key
@@ -42,33 +42,41 @@ def send_request_to_api(base64_image1, base64_image2, prompt):
                 ],
             }
         ],
-        max_tokens=1000,
+        max_tokens=600,
     )
     return response.choices[0]
 
 
 
-prompt1 = ("Extract the following information in json format, if there is a number give to me as a number not as a string: "
+prompt1 = ("Extract the following information in json format, if there is a number give to me as a number not as a string, don't forget any element I will give toy, because I will use it directly from your answer: "
            "{"
-           "\"heures_de_pointes\": { \"nouveau\": \"\", \"ancien\": \"\", \"difference\": \"\", \"consommation_kWh\": \"\", \"prix_unitaire_HT_DH\": \"\", \"montant_DH_HT\": \"\" }, "
-           "\"heures_pleines\": { \"nouveau\": \"\", \"ancien\": \"\", \"difference\": \"\", \"consommation_kWh\": \"\", \"prix_unitaire_HT_DH\": \"\", \"montant_DH_HT\": \"\" }, "
-           "\"heures_creuses\": { \"nouveau\": \"\", \"ancien\": \"\", \"difference\": \"\", \"consommation_kWh\": \"\", \"prix_unitaire_HT_DH\": \"\", \"montant_DH_HT\": \"\" } "
-           "}, but return such that it will be the first part of a json, I will add to it another json at the end of it string so that it makes one")
+           "\"heures_de_pointes\": { \"puissance_appelee\": \"\", \"difference\": \"\", \"consommation_kWh\": \"\", \"prix_unitaire_HT_DH\": \"\", \"montant_DH_HT\": \"\" }, "
+           "\"heures_pleines\": { \"puissance_appelee\": \"\", \"difference\": \"\", \"consommation_kWh\": \"\", \"prix_unitaire_HT_DH\": \"\", \"montant_DH_HT\": \"\" }, "
+           "\"heures_creuses\": { \"puissance_appelee\": \"\", \"difference\": \"\", \"consommation_kWh\": \"\", \"prix_unitaire_HT_DH\": \"\", \"montant_DH_HT\": \"\" } "
+           #"'Total_HT', 'TVA' (pour chaque pourcentage)"
+           #'{"Puissance_Installe":"","Puissance_a_vide":"","Mois_de_Consomation":"","Total_a_regler":"","Destinataire":"","N_Client":"","Type_compteur":"","Option_Tarifiaire":"","Energie_active":{"nouveau":"","ancien":"","difference":""},'
+           #'"Energie_reactive": "","CosPhi":"","Puissance_Souscrite":{"quantite":"","prix_unitaire":"","montant":""},"Depassement_Puissance":"", "Redevance_comptage":{"location":"","entretien":""},"interets_retard":""}, "Puissance_Appelee": {}}'
+           "}, don't add any comments do the json")
 
 
 prompt2 = ("Extract the following information in json format, if there is a number give to me as a number not as a string, don't make any mistake in the json format, because I will use it directly from your answer:"
            "'Total_HT', 'TVA' (pour chaque pourcentage)"
            "but return such that it will be the first part of a json, it will be added to another json string at the first line, so that it makes one, and give me only the json, don't write anything else"
+           "don't add any comments do the json"
            )
 
 prompt3 = ("Extract the following information in json format, if there is a number give to me as a number not as a string, don't make any mistake in the json format, because I will use it directly from your answer"
-    '{"Puissance_Installe":"","Puissance_a_vide":"","Mois_de_Consomation":"","Total_a_regler":"","Destinataire":"","N_Client":"","Type_compteur":"","Option_Tarifiaire":"","Energie_active":{"nouveau":"","ancien":"","difference":""},"Energie_reactive":{"nouveau":"","ancien":"","difference":""},"CosPhi":"","Puissance_Souscrite":{"quantite":"","prix_unitaire":"","montant":""},"Depassement_Puissance":"", "Redevance_comptage":{"location":"","entretien":""},"interets_retard":""}}'
-    "but return such that it will be the first part of a json, it will be added to another json string at the first line, so that it makes one")
+    '{"Puissance_Installe":"","Puissance_a_vide":"","Mois_de_Consomation":"","Total_a_regler":"","Destinataire":"","N_Client":"","Type_compteur":"","Option_Tarifiaire":"","Energie_active":{"nouveau":"","ancien":"","difference":""},'
+    '"Energie_reactive":{"nouveau":"","ancien":"","difference":""},"CosPhi":"","Puissance_Souscrite":{"quantite":"","prix_unitaire":"","montant":""},"Depassement_Puissance":"", "Redevance_comptage":{"location":"","entretien":""},"interets_retard":""}}'
+    "but return such that it will be the first part of a json, it will be added to another json string at the first line, so that it makes one, If you don't find any value, make it a 0."
+    "don't add any comments do the json"
+    )
 
 prompt4 = ("Agis comme un expert en électricité et efficacité énergétique et en prenant en considération le cas d'une entreprise agricole dans le contexte marocain"
            " qui souhaite optimiser la consommation d'energie analyse la facture suivante et fais un diagnostic détaillé selon le contexte de l'ONE au Maroc et donne"
            " les recommandations nécessaires. Take a deep breath and do it step by step")
 
+j = 0
 
 
 # Upload the PDF file
@@ -104,13 +112,11 @@ if uploaded_file is not None:
                 # Add the base64 image to the list
                 images.append(img_str)
 
-
         api_response1 = send_request_to_api(images[0], images[1], prompt1)
         api_response2 = send_request_to_api(images[0], images[1], prompt2)
         api_response3 = send_request_to_api(images[0], images[1], prompt3)
         api_response4 = send_request_to_api(images[0], images[1], prompt4)
 
-        # Extract the content from the API response
         content1 = api_response1.message.content
         content2 = api_response2.message.content
         content3 = api_response3.message.content
@@ -135,31 +141,49 @@ if uploaded_file is not None:
         json_part2 = json_part2[2:-2]
         json_part3 = json_part3[2:]
 
-        final = json_part1 + '},\n' + json_part2 + '},\n' + json_part3 + '\n}'
 
-        #json_obj = json.loads(final)
+        final = json_part1 + '},\n' + json_part2 + '},\n' + json_part3
 
-        #json_obj1 = json.loads(json_part1)
-        #json_obj2 = json.loads(json_part2)
+        try:
+            final = json.loads(final)
+            data_list.append(final)
+        except json.JSONDecodeError as e:
+            # Handle the JSON decode error
+            print("Error decoding JSON:", e)
 
-        # Group them into a single JSON array
-        #json_array = [json_obj1, json_obj2]
+        if not (json_part1 and json_part2 and json_part3):
+            st.error("Les images fournies ne sont pas visibles.")
 
-        #Convert the JSON array to a string
-        #final_json = json.dumps(json_array, indent=2)
+        else:
 
-        #json_final = json.loads(final)
+            st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 1",
+                         final)
+            #st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 2",
+            #             api_response4.messsage.content)
 
-        #data_list.append(final)
+
+
+        j += 1
+
+        if j >= 4:
+            break
 
 
 
         # Display the response from the API
-        st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 1",
-                     final)
+        #st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 0",
+        #             content1)
+        #st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 1",
+        #             json_part1)
         #st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 2",
-        #             json_part2)
-        st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 3",
-                     api_response4.message.content)
+        #             content2)
+        #st.text_area(f"API Response (Pages {page_index + 1} and {page_index + 2}) - Part 3",
+        #             api_response4.message.content)
 
-os.environ['DATA'] = str(data_list)
+#data = [json.loads(json_str) for json_str in data_list]
+
+
+
+
+generate_report(data_list, "template.docx", "report.docx")
+

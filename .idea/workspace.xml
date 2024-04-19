@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5f5dcb29-4552-4a89-b203-b00732edad11" name="Changes" comment="the report script creates two charts with the data, but no TVA">
+    <list default="true" id="5f5dcb29-4552-4a89-b203-b00732edad11" name="Changes" comment="prompts modified">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ONEFactureScript.py" beforeDir="false" afterPath="$PROJECT_DIR$/ONEFactureScript.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ReportGen.py" beforeDir="false" afterPath="$PROJECT_DIR$/ReportGen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chart.png" beforeDir="false" afterPath="$PROJECT_DIR$/chart.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pie1.png" beforeDir="false" afterPath="$PROJECT_DIR$/pie1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/template.docx" beforeDir="false" afterPath="$PROJECT_DIR$/template.docx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +64,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Home/PycharmProjects/ONEFactureAnalyze&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -99,7 +104,9 @@
       <workItem from="1712384054262" duration="3933000" />
       <workItem from="1712543537335" duration="27802000" />
       <workItem from="1713096431658" duration="14528000" />
-      <workItem from="1713258187643" duration="7027000" />
+      <workItem from="1713258187643" duration="8217000" />
+      <workItem from="1713352708702" duration="15606000" />
+      <workItem from="1713436845254" duration="18156000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <option name="closed" value="true" />
@@ -173,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713258496936</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="prompts modified">
+      <option name="closed" value="true" />
+      <created>1713277386077</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1713277386077</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,10 +213,11 @@
     <MESSAGE value="API takes two pictures of on bill and extract information" />
     <MESSAGE value="the output will be divided to three parts, two JSON's with bill data, and a recommendation from gpt4" />
     <MESSAGE value="the report script creates two charts with the data, but no TVA" />
-    <option name="LAST_COMMIT_MESSAGE" value="the report script creates two charts with the data, but no TVA" />
+    <MESSAGE value="prompts modified" />
+    <option name="LAST_COMMIT_MESSAGE" value="prompts modified" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ONEFactureAnalyze$ONEFactureScript.coverage" NAME="ONEFactureScript Coverage Results" MODIFIED="1713260422351" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ONEFactureAnalyze$ReportGen.coverage" NAME="ReportGen Coverage Results" MODIFIED="1713262605622" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ONEFactureAnalyze$ONEFactureScript.coverage" NAME="ONEFactureScript Coverage Results" MODIFIED="1713353726714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ONEFactureAnalyze$ReportGen.coverage" NAME="ReportGen Coverage Results" MODIFIED="1713434967018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -3,7 +3,6 @@ from docx.shared import Mm
 import json
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 
 # Your JSON data
 json_string = [
@@ -106,7 +105,7 @@ json_string = [
  },
     "Puissance_Installe": 0.3,
     "Puissance_a_vide": 0,
-    "Mois_de_Consomation": "SEP 2023",
+    "Mois_de_Consomation": "OCT 2023",
     "Total_a_regler": 37073.03,
     "Destinataire": "SOCIÉTÉ DOMAINES ROYAUX",
     "N_Client": 1000000293,
@@ -122,7 +121,71 @@ json_string = [
         "ancien": 18124,
         "difference": 634
     },
-    "CosPhi": 0.921,
+    "CosPhi": 0.934,
+    "Puissance_Souscrite": {
+        "quantite": 48,
+        "prix_unitaire": 674.51,
+        "montant": 1799.68
+    },
+    "Depassement_Puissance": 2023.52,
+    "Redevance_comptage": {
+        "location": 187,
+        "entretien": 326
+    }
+}
+    """,
+    """
+    {
+  "heures_de_pointes": {
+    "nouveau": 339744,
+    "ancien": 334773,
+    "difference": 4971,
+    "consommation_kWh": 5193,
+    "prix_unitaire_HT_DH": 1.24185,
+    "montant_DH_HT": 6448.93
+  },
+  "heures_pleines": {
+    "nouveau": 1805712,
+    "ancien": 1787858,
+    "difference": 17854,
+    "consommation_kWh": 18684,
+    "prix_unitaire_HT_DH": 0.880606,
+    "montant_DH_HT": 16471.64
+  },
+  "heures_creuses": {
+    "nouveau": 659000,
+    "ancien": 651702,
+    "difference": 7298,
+    "consommation_kWh": 7630,
+    "prix_unitaire_HT_DH": 0.64895,
+    "montant_DH_HT": 4951.49
+},
+  "Total_HT": 4556.16,
+  "TVA": {
+    "7%": 13.09,
+    "10%": 6.6,
+    "14%": 4471.21,
+    "20%": 65.2
+ },
+    "Puissance_Installe": 0.3,
+    "Puissance_a_vide": 0,
+    "Mois_de_Consomation": "NOV 2023",
+    "Total_a_regler": 37073.03,
+    "Destinataire": "SOCIÉTÉ DOMAINES ROYAUX",
+    "N_Client": 1000000293,
+    "Type_compteur": "Electronique",
+    "Option_Tarifiaire": "MT Général",
+    "Energie_active": {
+        "nouveau": 339744,
+        "ancien": 334773,
+        "difference": 4971
+    },
+    "Energie_reactive": {
+        "nouveau": 18758,
+        "ancien": 18124,
+        "difference": 634
+    },
+    "CosPhi": 0.926,
     "Puissance_Souscrite": {
         "quantite": 48,
         "prix_unitaire": 674.51,
@@ -144,6 +207,23 @@ data = [json.loads(json_str) for json_str in json_string]
 # Define the path to your template and output
 template_path = "template.docx"
 output_path = "report.docx"
+
+#Chart of CosPhi changes
+def cosPhiChart(months, cosPhi):
+
+    plt.plot(months, cosPhi, marker='o', markerfacecolor='lightblue', markersize=7)
+    plt.ylabel("FP CosPhi")
+    plt.title("Evolution du Facteur de Puissance CosPhi")
+
+    # Add the value of cosPhi on each point marker
+    for i in range(len(months)):
+        plt.text(months[i], cosPhi[i], str(cosPhi[i]), ha='center', va='bottom')
+
+    chart_path = "./CosPhiChart.png"
+    plt.savefig(chart_path)
+    plt.close()
+
+    return chart_path
 
 def pie1(energy_active_HPt, energy_active_HPL, energy_active_HCR):
     total = [sum(energy_active_HCR), sum(energy_active_HPL), sum(energy_active_HPt)]
@@ -174,6 +254,8 @@ def generate_report(data, template_path, output_path):
     energy_active_HPL = ()
     energy_active_HCR = ()
 
+    cosPhi = ()
+
     #variables init
     consommation_global = 0
     cout_consommation_seul = 0
@@ -203,6 +285,8 @@ def generate_report(data, template_path, output_path):
         energy_active_HPL += (item["heures_pleines"]["difference"],)
         energy_active_HCR += (item["heures_creuses"]["difference"],)
 
+        cosPhi += (item["CosPhi"],)
+
         context = {
             "Destinataire": item["Destinataire"],
             "N_Client": item["N_Client"],
@@ -225,9 +309,6 @@ def generate_report(data, template_path, output_path):
 
     # Generate the chart
     width = 0.1
-    print(energy_active_HPL)
-    print(energy_active_HPt)
-    print(energy_active_HCR)
     xpos = np.arange(len(months))
     plt.figure(figsize=(10, 7))
     plt.bar(xpos, energy_active_HPt, color='lightblue', width=width, label='E. Active HPt')
@@ -247,15 +328,16 @@ def generate_report(data, template_path, output_path):
     plt.close()
 
     pie1_path = pie1(energy_active_HPt, energy_active_HPL, energy_active_HCR)
+    cosPhi_chart_path = cosPhiChart(months, cosPhi)
 
     all_contexts[-1]["chart_image"] = InlineImage(doc, chart_image_path, width=Mm(120))
     all_contexts[-1]["pie1"] = InlineImage(doc, pie1_path, width=Mm(60))
-
+    all_contexts[-1]["cosPhiChart"] = InlineImage(doc, cosPhi_chart_path, width=Mm(150))
 
     # Replace placeholders with actual values and save the result
     doc.render({"data": all_contexts})  # Pass all contexts as a list under the key "data"
     doc.save(output_path)
 
 # Generate the report
-generate_report(data, template_path, output_path)
+#generate_report(data, template_path, output_path)
 
