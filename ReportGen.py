@@ -3,44 +3,42 @@ from docx.shared import Mm
 import json
 import matplotlib.pyplot as plt
 import numpy as np
+from ONEFactureScript import api_text_request
 
 # Your JSON data
 json_string = [
     """
 {
   "heures_de_pointes": {
-    "nouveau": 339744,
-    "ancien": 334773,
+    "puissance_appelee": 55,
     "difference": 4971,
     "consommation_kWh": 5193,
     "prix_unitaire_HT_DH": 1.24185,
     "montant_DH_HT": 6448.93
   },
   "heures_pleines": {
-    "nouveau": 1805712,
-    "ancien": 1787858,
+    "puissance_appelee": 75,
     "difference": 17854,
     "consommation_kWh": 18684,
     "prix_unitaire_HT_DH": 0.880606,
     "montant_DH_HT": 16471.64
   },
   "heures_creuses": {
-    "nouveau": 659000,
-    "ancien": 651702,
+    "puissance_appelee": 75,
     "difference": 7298,
     "consommation_kWh": 7630,
     "prix_unitaire_HT_DH": 0.64895,
     "montant_DH_HT": 4951.49
 },
-  "Total_HT": 4556.16,
+  "Total_HT": 32516.87,
   "TVA": {
     "7%": 13.09,
     "10%": 6.6,
     "14%": 4471.21,
     "20%": 65.2
  },
-    "Puissance_Installe": 0.3,
-    "Puissance_a_vide": 0,
+    "Puissance_Installe": 100,
+    "Puissance_a_vide": 0.3,
     "Mois_de_Consomation": "SEP 2023",
     "Total_a_regler": 37073.03,
     "Destinataire": "SOCIÉTÉ DOMAINES ROYAUX",
@@ -73,38 +71,35 @@ json_string = [
     """
     {
   "heures_de_pointes": {
-    "nouveau": 339744,
-    "ancien": 334773,
+    "puissance_appelee": 55,
     "difference": 4971,
     "consommation_kWh": 5193,
     "prix_unitaire_HT_DH": 1.24185,
     "montant_DH_HT": 6448.93
   },
   "heures_pleines": {
-    "nouveau": 1805712,
-    "ancien": 1787858,
+    "puissance_appelee": 75,
     "difference": 17854,
     "consommation_kWh": 18684,
     "prix_unitaire_HT_DH": 0.880606,
     "montant_DH_HT": 16471.64
   },
   "heures_creuses": {
-    "nouveau": 659000,
-    "ancien": 651702,
+    "puissance_appelee": 75,
     "difference": 7298,
     "consommation_kWh": 7630,
     "prix_unitaire_HT_DH": 0.64895,
     "montant_DH_HT": 4951.49
 },
-  "Total_HT": 4556.16,
+  "Total_HT": 32516.87,
   "TVA": {
     "7%": 13.09,
     "10%": 6.6,
     "14%": 4471.21,
     "20%": 65.2
  },
-    "Puissance_Installe": 0.3,
-    "Puissance_a_vide": 0,
+    "Puissance_Installe": 100,
+    "Puissance_a_vide": 0.3,
     "Mois_de_Consomation": "OCT 2023",
     "Total_a_regler": 37073.03,
     "Destinataire": "SOCIÉTÉ DOMAINES ROYAUX",
@@ -137,38 +132,35 @@ json_string = [
     """
     {
   "heures_de_pointes": {
-    "nouveau": 339744,
-    "ancien": 334773,
+    "puissance_appelee": 55, 
     "difference": 4971,
     "consommation_kWh": 5193,
     "prix_unitaire_HT_DH": 1.24185,
     "montant_DH_HT": 6448.93
   },
   "heures_pleines": {
-    "nouveau": 1805712,
-    "ancien": 1787858,
+    "puissance_appelee": 75,
     "difference": 17854,
     "consommation_kWh": 18684,
     "prix_unitaire_HT_DH": 0.880606,
     "montant_DH_HT": 16471.64
   },
   "heures_creuses": {
-    "nouveau": 659000,
-    "ancien": 651702,
+    "puissance_appelee": 75,
     "difference": 7298,
     "consommation_kWh": 7630,
     "prix_unitaire_HT_DH": 0.64895,
     "montant_DH_HT": 4951.49
 },
-  "Total_HT": 4556.16,
+  "Total_HT": 32516.87,
   "TVA": {
     "7%": 13.09,
     "10%": 6.6,
-    "14%": 4471.21,
+    "16%": 4472.21,
     "20%": 65.2
  },
-    "Puissance_Installe": 0.3,
-    "Puissance_a_vide": 0,
+    "Puissance_Installe": 100,
+    "Puissance_a_vide": 0.3,
     "Mois_de_Consomation": "NOV 2023",
     "Total_a_regler": 37073.03,
     "Destinataire": "SOCIÉTÉ DOMAINES ROYAUX",
@@ -241,6 +233,17 @@ def pie1(energy_active_HPt, energy_active_HPL, energy_active_HCR):
 
     return chart_image_path
 
+def psaChart(months, psa_arr):
+    pourcentages = ["0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100"]
+    plt.bar(months, psa_arr, color="lightgreen", width=0.2)
+    plt.title("TAUX DE CHARGE GLOBAL TRANSFOS (%)")
+
+    chart_image_path = "./psaChart.png"
+    plt.tight_layout()
+    plt.savefig(chart_image_path)
+    plt.close()
+
+    return chart_image_path
 
 
 # Function to generate a report
@@ -259,25 +262,79 @@ def generate_report(data, template_path, output_path):
     #variables init
     consommation_global = 0
     cout_consommation_seul = 0
-    consommation_item = 0
+    prix_moy_KWH_TTC = 0
+    prix_moy_KWH_HT = 0
     redevance_ps = 0
     Depassement_Puissance = 0
     Redevance_Comptage = 0
+    total_prix_moy_HT = 0
+    total_prix_moy_TTC = 0
+    majCosPhi = 0
+    prix_moy_KWH_consommation_seule = 0
+    tva = []
+    psa_arr = ()
 
+    for item in data:
+        if "14%" in item["TVA"]:
+            tva.append(1.14)
+        elif "16%" in item["TVA"]:
+            tva.append(1.16)
+
+
+
+
+    min_prix_moy_TTC = 10000000
+    min_prix_moy_HT = 10000000
+    total_prix_moy_cons_seule = 0
+    max_prix_moy_TTC = 0
+    max_prix_moy_HT = 0
+    prix_moy_min = 0
+    prix_moy_max = 0
+    min_month = ""
+    max_month = ""
+
+
+    i = 0
     # Create the context including the data array
     all_contexts = []
     for item in data:
-        Redevance_Comptage += (item["Redevance_comptage"]["location"] + item["Redevance_comptage"]["entretien"])
-        Depassement_Puissance += (item["Depassement_Puissance"])
-        redevance_ps += (item["Puissance_Souscrite"]["montant"])
+        Redevance_Comptage += (item["Redevance_comptage"]["location"] + item["Redevance_comptage"]["entretien"]) * tva[i]
+        Depassement_Puissance += (item["Depassement_Puissance"] * tva[i])
+        redevance_ps += (item["Puissance_Souscrite"]["montant"] * tva[i])
         consommation_global += (
                 item["heures_de_pointes"]["consommation_kWh"] + item["heures_pleines"]["consommation_kWh"] + item["heures_creuses"]["consommation_kWh"]
         )
         cout_consommation_seul += (
-                item["heures_de_pointes"]["montant_DH_HT"] + item["heures_pleines"]["montant_DH_HT"] + item["heures_creuses"][
-            "montant_DH_HT"]
+            (item["heures_de_pointes"]["montant_DH_HT"] + item["heures_pleines"]["montant_DH_HT"] + item["heures_creuses"][
+            "montant_DH_HT"]) * tva[i]
         )
-        cout_global = consommation_global * 1.16
+        cout_global = consommation_global * tva[i]
+
+        prix_moy_KWH_TTC = round(item["Total_a_regler"] / (item["heures_de_pointes"]["consommation_kWh"] + item["heures_pleines"]["consommation_kWh"] + item["heures_creuses"]["consommation_kWh"]), 2)
+        prix_moy_KWH_HT = round(prix_moy_KWH_TTC/tva[i], 2)
+        prix_moy_KWH_consommation_seule = round((item["heures_de_pointes"]["montant_DH_HT"] + item["heures_pleines"]["montant_DH_HT"] + item["heures_creuses"][
+            "montant_DH_HT"]) / (item["heures_de_pointes"]["consommation_kWh"] + item["heures_pleines"]["consommation_kWh"] + item["heures_creuses"]["consommation_kWh"]), 2)
+
+
+        total_prix_moy_HT += prix_moy_KWH_HT
+        total_prix_moy_TTC += prix_moy_KWH_TTC
+        total_prix_moy_cons_seule += prix_moy_KWH_consommation_seule
+
+        if prix_moy_KWH_TTC < min_prix_moy_TTC:
+            min_prix_moy_HT = prix_moy_KWH_HT
+            min_prix_moy_TTC = prix_moy_KWH_TTC
+            prix_moy_min = prix_moy_KWH_consommation_seule
+            min_month = item["Mois_de_Consomation"]
+        elif prix_moy_KWH_TTC > max_prix_moy_HT:
+            max_prix_moy_TTC = prix_moy_KWH_TTC
+            max_prix_moy_HT = prix_moy_KWH_HT
+            prix_moy_max = prix_moy_KWH_consommation_seule
+            max_month = item["Mois_de_Consomation"]
+
+        psa = (item["heures_pleines"]["puissance_appelee"], item["heures_de_pointes"]["puissance_appelee"], item["heures_creuses"]["puissance_appelee"])
+
+        psa = (max(psa)*100/item["CosPhi"]/item["Puissance_Installe"])
+        psa_arr += (psa,)
 
         # Add data to lists for chart generation
         months.append(item["Mois_de_Consomation"])
@@ -286,6 +343,9 @@ def generate_report(data, template_path, output_path):
         energy_active_HCR += (item["heures_creuses"]["difference"],)
 
         cosPhi += (item["CosPhi"],)
+
+        majCosPhi += 2 * (0.8 - item["CosPhi"]) * ((item["Redevance_comptage"]["entretien"]+item["Redevance_comptage"]["location"]) + item["Puissance_Souscrite"]["montant"] + item["Depassement_Puissance"]) * tva[i]
+
 
         context = {
             "Destinataire": item["Destinataire"],
@@ -298,14 +358,37 @@ def generate_report(data, template_path, output_path):
             "heures_pleines": item["heures_pleines"],
             "heures_creuses": item["heures_creuses"],
             "Puissance_Souscrite": item["Puissance_Souscrite"],
-            "Consomation_global": consommation_global,
-            "Cout_global": cout_global,
-            "Cout_consommation_seul": cout_consommation_seul,
-            "redevance_ps": redevance_ps,
-            "Depassement_Puissance": Depassement_Puissance,
-            "Redevance_Comptage": Redevance_Comptage,
+            "Consomation_global": round(consommation_global, 2),
+            "Cout_global": round(cout_global, 2),
+            "Cout_consommation_seul": round(cout_consommation_seul, 2),
+            "redevance_ps": round(redevance_ps, 2),
+            "Depassement_Puissance": round(Depassement_Puissance, 2),
+            "Redevance_Comptage": round(Redevance_Comptage, 2),
+            "prix_moy_KWH_TTC": prix_moy_KWH_TTC,
+            "prix_moy_KWH_HT": prix_moy_KWH_TTC/tva[i],
+            "prix_moy_KWH_consommation_seule": prix_moy_KWH_consommation_seule,
+            "total_prix_moy_HT": round(total_prix_moy_HT/(i+1), 2),
+            "total_prix_moy_TTC": total_prix_moy_TTC/(i+1),
+            "prix_moy_KWH_consommation_seule_total": total_prix_moy_cons_seule/(i+1),
+            "min_prix_moy_HT": min_prix_moy_HT,
+            "min_prix_moy_TTC": min_prix_moy_TTC,
+            "max_prix_moy_HT": max_prix_moy_HT,
+            "max_prix_moy_TTC": max_prix_moy_TTC,
+            "prix_moy_min": prix_moy_min,
+            "prix_moy_max": prix_moy_max,
+            "min_month": min_month,
+            "max_month": max_month,
+            "min_CosPhi": min(cosPhi),
+            "max_CosPhi": max(cosPhi),
+            "average_CosPhi": sum(cosPhi)/len(cosPhi),
+            "majCosPhi": round(majCosPhi, 2)
+
         }
+
+
+
         all_contexts.append(context)
+        i += 1
 
     # Generate the chart
     width = 0.1
@@ -330,9 +413,14 @@ def generate_report(data, template_path, output_path):
     pie1_path = pie1(energy_active_HPt, energy_active_HPL, energy_active_HCR)
     cosPhi_chart_path = cosPhiChart(months, cosPhi)
 
+    psaChart_path = psaChart(months, psa_arr)
+
+    response = api_text_request(all_contexts)
+
     all_contexts[-1]["chart_image"] = InlineImage(doc, chart_image_path, width=Mm(120))
     all_contexts[-1]["pie1"] = InlineImage(doc, pie1_path, width=Mm(60))
     all_contexts[-1]["cosPhiChart"] = InlineImage(doc, cosPhi_chart_path, width=Mm(150))
+    all_contexts[-1]["psaChart"] = InlineImage(doc, psaChart_path, width=Mm(150))
 
     # Replace placeholders with actual values and save the result
     doc.render({"data": all_contexts})  # Pass all contexts as a list under the key "data"
