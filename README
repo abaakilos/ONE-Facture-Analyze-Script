@@ -1,22 +1,22 @@
-Description
+## Description
 This project utilizes Streamlit and OpenAI's GPT-3.5 and GPT-4 models to extract information from PDF documents and generate reports based on the extracted data. It offers an automated solution for analyzing electricity bills and providing detailed diagnostics and recommendations for energy optimization.
 
-Installation
+## Installation
 To run this project locally, follow these steps:
 
-Clone the repository:
+### Clone the repository:
 bash
 Copy code
-git clone https://github.com/your_username/your_repository.git
+`git clone https://github.com/your_username/your_repository.git`
 Install the required dependencies:
 bash
 Copy code
-pip install -r requirements.txt
-Usage
+`pip install -r pip install streamlit==0.87.0 PyMuPDF==1.19.6 Pillow==8.4.0 openai==0.10.5`
+## Usage
 Upload a PDF file containing the electricity bill using the provided file uploader.
 The application will extract information from the uploaded PDF, process it using OpenAI's GPT models, and generate a report with detailed diagnostics and recommendations.
 The generated report will be saved as a Word document (report.docx) in the project directory.
-Dependencies
+## Dependencies
 Streamlit
 PyMuPDF (fitz)
 Pillow (PIL)
