@@ -7,7 +7,7 @@ To run this project locally, follow these steps:
 ### Clone the repository:
 bash
 Copy code
-`git clone https://github.com/your_username/your_repository.git`
+`git clone https://github.com/abaakilos/ONE-Facture-Analyze-Script/tree/master`
 Install the required dependencies:
 bash
 Copy code
