@@ -58,7 +58,9 @@ def api_text_request(data):
                         
                         6.	Si on admet une limite d’exploitation normale de la puissance installée à hauteur de 80%, la disponibilité encore exploitable sur les transfos actuels étant de 341KVA. Cette réserve pourra atteindre 400KVA, si le facteur de puissance est maintenu à 0,97.
 
-                            """)
+                           
+                        give them to me as Text 1: , Text 2: , Text 3: .
+                         """)
 
             }
         ]

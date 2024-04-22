@@ -428,4 +428,3 @@ def generate_report(data, template_path, output_path):
 
 # Generate the report
 #generate_report(data, template_path, output_path)
-
